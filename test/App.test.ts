@@ -20,9 +20,25 @@ describe('App', () => {
             .then(res => expect(res.text).to.equal('OK\r\n'));
     });
 
+    it('should require an access token on /card/:cardNumber', () => {
+        return request(expressApp)
+            .get('/card/9203111020153687')
+            .expect(403)
+            .then(res => expect(res.text).to.equal('Unauthorized\r\n'));
+    });
+
+    it('should require a valid access token on /card/:cardNumber', () => {
+        return request(expressApp)
+            .get('/card/9203111020153687')
+            .set('X-Access-Token', 'invalid_test')
+            .expect(403)
+            .then(res => expect(res.text).to.equal('Unauthorized\r\n'));
+    });
+
     it('should respond with the correct card info on /card/:cardNumber', () => {
         return request(expressApp)
             .get('/card/9203111020153687')
+            .set('X-Access-Token', 'test')
             .expect(200)
             .then(res =>
                 expect(res.text).to.equal(

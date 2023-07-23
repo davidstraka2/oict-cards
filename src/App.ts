@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express';
+import express, {NextFunction, Request, Response} from 'express';
 import {Server} from 'node:http';
 
 /** A simple Express server that fetches payment card data from a remote API */
@@ -9,10 +9,12 @@ export class App {
         `http://private-264465-litackaapi.apiary-mock.com/cards/${cardNumber}/validity`;
     cardStateEndpoint = (cardNumber: string) =>
         `http://private-264465-litackaapi.apiary-mock.com/cards/${cardNumber}/state`;
+    validAPIKeys = ['test'];
     express = express();
     server?: Server;
 
     constructor() {
+        this.setupMiddleware();
         this.setupRoutes();
     }
 
@@ -28,17 +30,39 @@ export class App {
         });
     }
 
+    /** Set up middleware for the Express server */
+    private setupMiddleware(): void {
+        // Log requests to the console
+        this.express.use((req: Request, res: Response, next: NextFunction) => {
+            this.log(req);
+            next();
+        });
+        // Check for valid API keys where needed
+        this.express.use(
+            '/card/:cardNumber',
+            (req: Request, res: Response, next: NextFunction) => {
+                const token = req.header('X-Access-Token') ?? '';
+                if (!this.validAPIKeys.includes(token)) {
+                    console.log(`Unauthorized request with token "${token}".`);
+                    res.status(403).send('Unauthorized\r\n');
+                    return;
+                }
+                next();
+            },
+        );
+    }
+
     /** Set up the routes for the Express server */
     private setupRoutes(): void {
-        this.express.get('/status', (req: Request, res: Response) => {
-            this.log(req);
-            res.send('OK\r\n');
-        });
+        // Health-check endpoint
+        this.express.get('/status', (req: Request, res: Response) =>
+            res.send('OK\r\n'),
+        );
+        // Card info endpoint
         this.express.get(
             '/card/:cardNumber',
             async (req: Request, res: Response) => {
                 const cardNumber = req.params.cardNumber;
-                this.log(req);
                 const cardValidityEndPromise =
                     this.fetchCardValidityEnd(cardNumber);
                 const cardStatePromise = this.fetchCardState(cardNumber);
