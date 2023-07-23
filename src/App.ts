@@ -1,5 +1,6 @@
 import express, {NextFunction, Request, Response} from 'express';
 import {Server} from 'node:http';
+import swaggerUi from 'swagger-ui-express';
 
 /** A simple Express server that fetches payment card data from a remote API */
 export class App {
@@ -10,6 +11,7 @@ export class App {
     cardStateEndpoint = (cardNumber: string) =>
         `http://private-264465-litackaapi.apiary-mock.com/cards/${cardNumber}/state`;
     validAPIKeys = ['test'];
+    docsPath = '../docs/openapi.json';
     express = express();
     server?: Server;
 
@@ -49,6 +51,12 @@ export class App {
                 }
                 next();
             },
+        );
+        // Serve the OpenAPI documentation on /docs/openapi
+        this.express.use(
+            '/docs/openapi',
+            swaggerUi.serve,
+            swaggerUi.setup(require(this.docsPath)),
         );
     }
 
