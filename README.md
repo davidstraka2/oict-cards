@@ -19,3 +19,11 @@ Tests are run when building the app OCI image. To run them again manually:
 ```sh
 docker compose run app npm test
 ```
+
+## Docs
+
+API documentation in the OpenAPI format is located in `docs/openapi.json`. The docs can be viewed using Swagger UI on <http://tmp.davidstraka.dev:3000/docs/openapi>, respectively <http://localhost:3000/docs/openapi>.
+
+## Access Token
+
+The access token (`X-Access-Token`) for now is just the string `test`.
