@@ -8,6 +8,6 @@ ENV APP_PORT=$APP_PORT
 
 COPY . /app
 WORKDIR /app
-RUN npm i
+RUN npm install && npm test
 EXPOSE $APP_PORT
 CMD ["npm", "start"]

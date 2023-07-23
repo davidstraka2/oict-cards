@@ -1,5 +1,6 @@
 *
 !/src/
+!/test/
 !/npm-shrinkwrap.json
 !/package.json
 !/tsconfig.json
