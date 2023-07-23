@@ -11,6 +11,9 @@
     },
     "servers": [
         {
+            "url": "http://tmp.davidstraka.me:3000"
+        },
+        {
             "url": "http://localhost:3000"
         }
     ],

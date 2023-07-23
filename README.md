@@ -2,6 +2,10 @@
 
 ## Usage
 
+The app is temporarily deployed on <http://tmp.davidstraka.me:3000>.
+
+To run it locally, Docker (or alternatives, e.g. Podman) can be used.
+
 To start the HTTP server:
 
 ```sh
@@ -18,7 +22,7 @@ docker compose run app npm test
 
 ## Docs
 
-API documentation in the OpenAPI format is located in `docs/openapi.json`. The docs can be viewed using Swagger UI on  <http://localhost:3000/docs/openapi>.
+API documentation in the OpenAPI format is located in `docs/openapi.json`. The docs can be viewed using Swagger UI on <http://tmp.davidstraka.me:3000/docs/openapi>, respectively <http://localhost:3000/docs/openapi>.
 
 ## Access Token
 
