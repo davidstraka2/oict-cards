@@ -1,8 +1,8 @@
 import express, {Request, Response} from 'express';
 
 const app = express();
-const port = 3000;
-const host = '0.0.0.0';
+const port = parseInt(process.env.APP_PORT ?? '3000', 10);
+const host = process.env.APP_HOST ?? 'localhost';
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!');
