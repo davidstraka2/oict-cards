@@ -27,3 +27,15 @@ API documentation in the OpenAPI format is located in `docs/openapi.json`. The d
 ## Access Token
 
 The access token (`X-Access-Token`) for now is just the string `test`.
+
+<!--
+[CR]: obecně:
+- v package.json, proč je použit ts-node ve start a v dependencies? Nešlo by to jinak?
+- byl použit nějaký linter/prettier?
+[CR]: openapi:
+- může /status vrátit něco jiného než 200?
+- proč text/plain?
+- /card/{id} - co když karta neexistuje?
+- /card/{id} - vrací jen 200 nebo 403?
+
+->
